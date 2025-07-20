@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramesh Nambiyath | Professional Photographer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper-color: #f8f4e8;
+            --paper-texture: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.02 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.3"/></svg>');
+            --ink-color: #1a1a1a;
+            --accent-color: #5c4d3c;
+            --accent-light: #8a7866;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+            --border-radius: 6px;
+            --border: 1px solid rgba(0,0,0,0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #e8e3d5;
+            color: var(--ink-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            line-height: 1.6;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0 0 L100 0 L100 100 L0 100 Z" fill="none" stroke="rgba(0,0,0,0.03)" stroke-width="1"/></svg>');
+        }
+        
+        .business-card {
+            background-color: var(--paper-color);
+            background-image: var(--paper-texture);
+            width: 100%;
+            max-width: 620px;
+            padding: 30px 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+            border: var(--border);
+        }
+        
+        .business-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-light));
+        }
+        
+        .business-card.loaded {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--ink-color);
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            filter: grayscale(20%) contrast(110%);
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.05);
+            filter: grayscale(0%) contrast(120%);
+        }
+        
+        .name-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--ink-color);
+            letter-spacing: -0.5px;
+        }
+        
+        .name-title p {
+            font-style: italic;
+            color: var(--accent-light);
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .divider::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-light));
+            animation: grow 0.8s ease-out forwards;
+        }
+        
+        @keyframes grow {
+            from { width: 0; }
+            to { width: 50px; }
+        }
+        
+        .details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        
+        .detail-group {
+            margin-bottom: 12px;
+            animation: fadeIn 0.5s ease-out forwards;
+            animation-delay: calc(var(--order) * 0.1s);
+            opacity: 0;
+            position: relative;
+            padding-left: 8px;
+        }
+        
+        .detail-group::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-color), var(--accent-light));
+            border-radius: 2px;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .detail-group h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-group h3 i {
+            margin-right: 10px;
+            font-size: 14px;
+            width: 20px;
+            text-align: center;
+            color: var(--accent-light);
+        }
+        
+        .detail-group p, .detail-group a {
+            font-size: 15px;
+            color: var(--ink-color);
+            word-break: break-word;
+        }
+        
+        .detail-group a {
+            position: relative;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .detail-group a:hover {
+            color: var(--accent-color);
+        }
+        
+        .detail-group a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-light));
+            transition: var(--transition);
+        }
+        
+        .detail-group a:hover::after {
+            width: 100%;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: popIn 0.5s ease-out forwards;
+            animation-delay: calc(var(--order) * 0.1s + 0.5s);
+            opacity: 0;
+            transform: scale(0.8);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        @keyframes popIn {
+            to { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .watermark {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 11px;
+            color: var(--accent-light);
+            font-family: 'DM Sans', sans-serif;
+            animation: fadeIn 0.5s ease-out 1s forwards;
+            opacity: 0;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 640px) {
+            .business-card {
+                padding: 40px;
+            }
+            
+            .header {
+                flex-direction: row;
+                text-align: left;
+                align-items: center;
+            }
+            
+            .profile-image {
+                margin-right: 25px;
+                margin-bottom: 0;
+            }
+            
+            .details {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            
+            .social-links {
+                justify-content: flex-start;
+            }
+            
+            .watermark {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+                margin-top: 0;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="business-card">
+        <div class="header">
+            <img src="https://pricelesscapture.com/assets/images/df.jpeg" alt="Ramesh Nambiyath" class="profile-image">
+            <div class="name-title">
+                <h1>Ramesh Nambiyath</h1>
+                <p>Professional Photographer</p>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="details">
+            <div class="detail-group" style="--order: 0;">
+                <h3><i class="fas fa-briefcase"></i> Specialization</h3>
+                <p>Wedding, Portrait & Commercial Photography</p>
+            </div>
+            
+            <div class="detail-group" style="--order: 1;">
+                <h3><i class="fas fa-star"></i> Experience</h3>
+                <p>15+ Years</p>
+            </div>
+            
+            <div class="detail-group" style="--order: 2;">
+                <h3><i class="fas fa-phone"></i> Phone</h3>
+                <a href="tel:+19452748756">+1 (945) 274-8756</a>
+            </div>
+            
+            <div class="detail-group" style="--order: 3;">
+                <h3><i class="fas fa-envelope"></i> Email</h3>
+                <a href="mailto:mr.ramesh.nr@gmail.com">mr.ramesh.nr@gmail.com</a>
+            </div>
+            
+            <div class="detail-group" style="--order: 4;">
+                <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                <p>3287 Indiana Avenue, Waialua, Hawaii</p>
+            </div>
+            
+            <div class="detail-group" style="--order: 5;">
+                <h3><i class="fas fa-globe"></i> Website</h3>
+                <a href="https://pricelesscapture.com" target="_blank">pricelesscapture.com</a>
+            </div>
+        </div>
+        
+        <div class="social-links">
+            <a href="https://wa.me/19452748756?text=Hi%21%20I%E2%80%99m%20interested%20in%20your%20services." aria-label="WhatsApp" style="--order: 0;"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://pricelesscapture.com/#" aria-label="Instagram" style="--order: 1;"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:mr.ramesh.nr@gmail.com" aria-label="Email" style="--order: 2;"><i class="fas fa-envelope"></i></a>
+            <a href="https://pricelesscapture.com" aria-label="Website" style="--order: 3;"><i class="fas fa-globe"></i></a>
+        </div>
+        
+        <div class="watermark">Scan QR to save contact</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Card entrance animation
+            setTimeout(() => {
+                document.querySelector('.business-card').classList.add('loaded');
+            }, 100);
+            
+            // Simple hover effect for profile image
+            const profileImg = document.querySelector('.profile-image');
+            if (profileImg) {
+                profileImg.addEventListener('mouseenter', () => {
+                    profileImg.style.transform = 'scale(1.05)';
+                });
+                profileImg.addEventListener('mouseleave', () => {
+                    profileImg.style.transform = 'scale(1)';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
